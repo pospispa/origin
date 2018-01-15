@@ -4283,6 +4283,43 @@ items:
       authorization.openshift.io/system-only: "true"
       openshift.io/reconcile-protect: "false"
     creationTimestamp: null
+    name: system:openshift:controller:pvc-protection-controller
+  rules:
+  - apiGroups:
+    - ""
+    attributeRestrictions: null
+    resources:
+    - persistentvolumeclaims
+    verbs:
+    - get
+    - list
+    - update
+    - watch
+  - apiGroups:
+    - ""
+    attributeRestrictions: null
+    resources:
+    - pods
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    attributeRestrictions: null
+    resources:
+    - events
+    verbs:
+    - create
+    - patch
+    - update
+- apiVersion: v1
+  kind: ClusterRole
+  metadata:
+    annotations:
+      authorization.openshift.io/system-only: "true"
+      openshift.io/reconcile-protect: "false"
+    creationTimestamp: null
     labels:
       kubernetes.io/bootstrapping: rbac-defaults
     name: system:controller:attachdetach-controller
@@ -7455,6 +7492,22 @@ items:
     namespace: openshift-infra
   userNames:
   - system:serviceaccount:openshift-infra:template-service-broker
+- apiVersion: v1
+  groupNames: null
+  kind: ClusterRoleBinding
+  metadata:
+    annotations:
+      openshift.io/reconcile-protect: "false"
+    creationTimestamp: null
+    name: system:openshift:controller:pvc-protection-controller
+  roleRef:
+    name: system:openshift:controller:pvc-protection-controller
+  subjects:
+  - kind: ServiceAccount
+    name: pvc-protection-controller
+    namespace: openshift-infra
+  userNames:
+  - system:serviceaccount:openshift-infra:pvc-protection-controller
 - apiVersion: v1
   groupNames:
   - system:masters
